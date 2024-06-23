@@ -5,11 +5,17 @@
 package model;
 
 import helper.dbconfig;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import view.EditDataDiri;
 import view.Login;
@@ -77,6 +83,23 @@ public class DataDiri extends javax.swing.JFrame {
                     jFormattedTextField3.setText(String.valueOf(resultSet.getLong("no_hp_ayah")));
                     jFormattedTextField4.setText(String.valueOf(resultSet.getLong("no_hp_ibu")));
                     jFormattedTextField5.setText(String.valueOf(resultSet.getLong("no_hp_teman_kos")));
+
+                    if (resultSet.getString("foto") != null) {
+                        String imagePath = resultSet.getString("foto");
+                        File imageFile = new File(imagePath);
+
+                        if (imageFile.exists()) {
+                            try {
+                                BufferedImage img = ImageIO.read(imageFile);
+                                lblFoto.setIcon(new ImageIcon(img.getScaledInstance(lblFoto.getSize().width, lblFoto.getSize().height, Image.SCALE_SMOOTH)));
+                                lblFotoSidebar.setIcon(new ImageIcon(img.getScaledInstance(lblFotoSidebar.getSize().width, lblFotoSidebar.getSize().height, Image.SCALE_SMOOTH)));
+                            } catch (IOException ex) {
+                                System.err.println("Error: " + ex.getMessage());
+                            }
+                        } else {
+                            System.err.println("File tidak ditemukan: " + imagePath);
+                        }
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -98,7 +121,7 @@ public class DataDiri extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblFotoSidebar = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -132,7 +155,7 @@ public class DataDiri extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jTextField15 = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
+        lblFoto = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -146,8 +169,8 @@ public class DataDiri extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblFotoSidebar.setText("jLabel1");
+        lblFotoSidebar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton1.setText("Home");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -200,14 +223,14 @@ public class DataDiri extends javax.swing.JFrame {
                             .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(34, 34, 34)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblFotoSidebar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblFotoSidebar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
@@ -316,7 +339,7 @@ public class DataDiri extends javax.swing.JFrame {
 
         jLabel18.setText("Foto Diri");
 
-        jLabel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblFoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextArea4.setColumns(20);
         jTextArea4.setRows(5);
@@ -406,7 +429,7 @@ public class DataDiri extends javax.swing.JFrame {
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                             .addComponent(jLabel18)
                                             .addGap(114, 114, 114)
-                                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(72, 72, 72))
                                         .addComponent(jLabel13))))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -492,7 +515,7 @@ public class DataDiri extends javax.swing.JFrame {
                         .addComponent(jLabel18))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(182, 182, 182)
                 .addComponent(jButton6)
                 .addGap(66, 66, 66))
@@ -630,7 +653,6 @@ public class DataDiri extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JFormattedTextField jFormattedTextField4;
     private javax.swing.JFormattedTextField jFormattedTextField5;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -640,7 +662,6 @@ public class DataDiri extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -665,5 +686,7 @@ public class DataDiri extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel lblFoto;
+    private javax.swing.JLabel lblFotoSidebar;
     // End of variables declaration//GEN-END:variables
 }

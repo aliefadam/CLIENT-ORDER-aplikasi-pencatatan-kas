@@ -3,19 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/view/LupaPassword.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/model/Kas_Admin.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/model/Home.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/model/DataDiri.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/view/Login.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/model/User.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/model/Kas.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/view/Register.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/view/EditDataDiri.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/model/Home_Admin.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/model/DataDiri_Admin.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/controller/LoginController.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/STIS/SMT%204/PBO/UAS_PBO/src/controller/RegisterController.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/UAS_PBO/src/view/Login.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/UAS_PBO/src/controller/UserController.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/UAS_PBO/src/model/Kas.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/UAS_PBO/src/helper/dbconfig.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/UAS_PBO/src/model/Home.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/UAS_PBO/src/controller/LoginController.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/UAS_PBO/src/model/DataDiri.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/UAS_PBO/src/view/EditDataDiri.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/UAS_PBO/src/model/User.java</file>
         </group>
     </open-files>
 </project-private>

@@ -32,10 +32,11 @@ public class User {
     private String suku;
     private String alamatAsal;
     private String alamatKos;
-    private int noHpPribadi;
-    private int noHpAyah;
-    private int noHpIbu;
-    private int noHpTemanKos;
+    private long noHpPribadi;
+    private long noHpAyah;
+    private long noHpIbu;
+    private long noHpTemanKos;
+    private String foto;
 
     public User(int NIM, String email, String password) {
         this.NIM = NIM;
@@ -162,38 +163,46 @@ public class User {
         this.alamatKos = alamatKos;
     }
 
-    public int getNoHpPribadi() {
+    public long getNoHpPribadi() {
         return noHpPribadi;
     }
 
-    public void setNoHpPribadi(int noHpPribadi) {
+    public void setNoHpPribadi(long noHpPribadi) {
         this.noHpPribadi = noHpPribadi;
     }
 
-    public int getNoHpAyah() {
+    public long getNoHpAyah() {
         return noHpAyah;
     }
 
-    public void setNoHpAyah(int noHpAyah) {
+    public void setNoHpAyah(long noHpAyah) {
         this.noHpAyah = noHpAyah;
     }
 
-    public int getNoHpIbu() {
+    public long getNoHpIbu() {
         return noHpIbu;
     }
 
-    public void setNoHpIbu(int noHpIbu) {
+    public void setNoHpIbu(long noHpIbu) {
         this.noHpIbu = noHpIbu;
     }
 
-    public int getNoHpTemanKos() {
+    public long getNoHpTemanKos() {
         return noHpTemanKos;
     }
 
-    public void setNoHpTemanKos(int noHpTemanKos) {
+    public void setNoHpTemanKos(long noHpTemanKos) {
         this.noHpTemanKos = noHpTemanKos;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+    
     public String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -283,10 +292,10 @@ public class User {
             statement.setString(9, this.suku);
             statement.setString(10, this.alamatAsal);
             statement.setString(11, this.alamatKos);
-            statement.setInt(12, this.noHpPribadi);
-            statement.setInt(13, this.noHpAyah);
-            statement.setInt(14, this.noHpIbu);
-            statement.setInt(15, this.noHpTemanKos);
+            statement.setLong(12, this.noHpPribadi);
+            statement.setLong(13, this.noHpAyah);
+            statement.setLong(14, this.noHpIbu);
+            statement.setLong(15, this.noHpTemanKos);
             // Update fields
             statement.setString(16, this.email);
             statement.setString(17, this.namaLengkap);
@@ -298,10 +307,10 @@ public class User {
             statement.setString(23, this.suku);
             statement.setString(24, this.alamatAsal);
             statement.setString(25, this.alamatKos);
-            statement.setInt(26, this.noHpPribadi);
-            statement.setInt(27, this.noHpAyah);
-            statement.setInt(28, this.noHpIbu);
-            statement.setInt(29, this.noHpTemanKos);
+            statement.setLong(26, this.noHpPribadi);
+            statement.setLong(27, this.noHpAyah);
+            statement.setLong(28, this.noHpIbu);
+            statement.setLong(29, this.noHpTemanKos);
 
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;

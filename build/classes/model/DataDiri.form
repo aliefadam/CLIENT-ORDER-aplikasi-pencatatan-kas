@@ -51,7 +51,7 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="jLabel1" min="-2" pref="68" max="-2" attributes="0"/>
+                          <Component id="lblFotoSidebar" min="-2" pref="68" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -62,7 +62,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" pref="62" max="-2" attributes="0"/>
+                  <Component id="lblFotoSidebar" min="-2" pref="62" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -79,7 +79,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="lblFotoSidebar">
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -214,7 +214,7 @@
                                               <Group type="102" alignment="1" attributes="0">
                                                   <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
-                                                  <Component id="jLabel19" min="-2" pref="122" max="-2" attributes="0"/>
+                                                  <Component id="lblFoto" min="-2" pref="122" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
@@ -328,7 +328,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="jLabel19" min="-2" pref="133" max="-2" attributes="0"/>
+                              <Component id="lblFoto" min="-2" pref="133" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
@@ -484,7 +484,7 @@
                 <Property name="text" type="java.lang.String" value="Foto Diri"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel19">
+            <Component class="javax.swing.JLabel" name="lblFoto">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
