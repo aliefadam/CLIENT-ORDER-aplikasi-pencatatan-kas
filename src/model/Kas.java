@@ -4,18 +4,32 @@
  */
 package model;
 
+import controller.UserController;
 import helper.dbconfig;
+import java.awt.Component;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import view.EditDataDiri;
 import view.Login;
 
@@ -24,17 +38,22 @@ import view.Login;
  * @author LENOVO
  */
 public class Kas extends javax.swing.JFrame {
+
     private User user;
-    
+
     /**
      * Creates new form BayarKas
      */
+    private String buktiPembayaran = "";
+
     public Kas(User user) {
         this.user = user;
         initComponents();
         loadProfilePhoto();
+        displayTable();
+        fetchNamaLengkap();
     }
-    
+
     public void loadProfilePhoto() {
         try (Connection connection = dbconfig.getConnection()) {
             String sql = "SELECT * FROM data_diri WHERE nim = ?";
@@ -85,20 +104,20 @@ public class Kas extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
-        jTextField6 = new javax.swing.JTextField();
+        txtNamaLengkap = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        jCheckBox9 = new javax.swing.JCheckBox();
-        jCheckBox10 = new javax.swing.JCheckBox();
-        jCheckBox11 = new javax.swing.JCheckBox();
+        cbNovember = new javax.swing.JCheckBox();
+        cbDesember = new javax.swing.JCheckBox();
+        cbJanuari = new javax.swing.JCheckBox();
+        cbFebruari = new javax.swing.JCheckBox();
+        cbMaret = new javax.swing.JCheckBox();
+        cbApril = new javax.swing.JCheckBox();
+        cbMei = new javax.swing.JCheckBox();
+        cbJuni = new javax.swing.JCheckBox();
+        cbJuli = new javax.swing.JCheckBox();
+        cbAgustus = new javax.swing.JCheckBox();
+        cbDiesNatalis = new javax.swing.JCheckBox();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
@@ -107,7 +126,8 @@ public class Kas extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblKas = new javax.swing.JTable();
+        lblMetodePembayaran = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -188,9 +208,10 @@ public class Kas extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.WEST);
 
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        txtNamaLengkap.setEditable(false);
+        txtNamaLengkap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                txtNamaLengkapActionPerformed(evt);
             }
         });
 
@@ -199,52 +220,52 @@ public class Kas extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel11.setText("Bayar Kas");
 
-        jCheckBox1.setText("November");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbNovember.setText("November");
+        cbNovember.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                cbNovemberActionPerformed(evt);
             }
         });
 
-        jCheckBox2.setText("Desember");
+        cbDesember.setText("Desember");
 
-        jCheckBox3.setText("Januari");
+        cbJanuari.setText("Januari");
 
-        jCheckBox4.setText("Februari");
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+        cbFebruari.setText("Februari");
+        cbFebruari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
+                cbFebruariActionPerformed(evt);
             }
         });
 
-        jCheckBox5.setText("Maret");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+        cbMaret.setText("Maret");
+        cbMaret.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
+                cbMaretActionPerformed(evt);
             }
         });
 
-        jCheckBox6.setText("April");
-        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
+        cbApril.setText("April");
+        cbApril.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox6ActionPerformed(evt);
+                cbAprilActionPerformed(evt);
             }
         });
 
-        jCheckBox7.setText("Mei");
+        cbMei.setText("Mei");
 
-        jCheckBox8.setText("Juni");
-        jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
+        cbJuni.setText("Juni");
+        cbJuni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox8ActionPerformed(evt);
+                cbJuniActionPerformed(evt);
             }
         });
 
-        jCheckBox9.setText("Juli");
+        cbJuli.setText("Juli");
 
-        jCheckBox10.setText("Agustus");
+        cbAgustus.setText("Agustus");
 
-        jCheckBox11.setText("Dies Natalis");
+        cbDiesNatalis.setText("Dies Natalis");
 
         jLabel8.setText("Bulan");
 
@@ -259,6 +280,11 @@ public class Kas extends javax.swing.JFrame {
         });
 
         jButton8.setText("Update");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Keterangan");
 
@@ -267,7 +293,7 @@ public class Kas extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel13.setText("Rp ");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblKas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -275,7 +301,10 @@ public class Kas extends javax.swing.JFrame {
                 "Bulan", "Status"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblKas);
+
+        lblMetodePembayaran.setText("Foto muncul disini");
+        lblMetodePembayaran.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -295,35 +324,35 @@ public class Kas extends javax.swing.JFrame {
                                     .addComponent(jLabel8))
                                 .addGap(71, 71, 71)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNamaLengkap, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbNovember, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jCheckBox11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                    .addGap(283, 283, 283)
-                                    .addComponent(jButton8))
+                                        .addComponent(cbDiesNatalis, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                                        .addComponent(cbAgustus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbJuli, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbJuni, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbMei, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbApril, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbMaret, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbFebruari, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbJanuari, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbDesember, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(91, 91, 91)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addGap(61, 61, 61))))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton8)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel9)
                                     .addGap(55, 55, 55)
-                                    .addComponent(jButton7))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel10)
-                                    .addGap(91, 91, 91)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel12)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jLabel13)
-                                            .addGap(61, 61, 61)))))))
+                                        .addComponent(jButton7)
+                                        .addComponent(lblMetodePembayaran))))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
@@ -334,32 +363,32 @@ public class Kas extends javax.swing.JFrame {
                 .addComponent(jLabel11)
                 .addGap(33, 33, 33)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNamaLengkap, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
+                    .addComponent(cbNovember)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox2)
+                .addComponent(cbDesember)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox3)
+                .addComponent(cbJanuari)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox4)
+                .addComponent(cbFebruari)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox5)
+                .addComponent(cbMaret)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox6)
+                .addComponent(cbApril)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox7)
+                .addComponent(cbMei)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox8)
+                .addComponent(cbJuni)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox9)
+                .addComponent(cbJuli)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox10)
+                .addComponent(cbAgustus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox11)
+                .addComponent(cbDiesNatalis)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -370,11 +399,13 @@ public class Kas extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jButton7))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblMetodePembayaran, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
                 .addComponent(jButton8)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(316, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(334, Short.MAX_VALUE))
         );
 
         jScrollPane3.setViewportView(jPanel2);
@@ -383,6 +414,224 @@ public class Kas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public String getNamaLengkap() {
+        return txtNamaLengkap.getText().isEmpty() ? "" : txtNamaLengkap.getText();
+    }
+
+    public boolean november() {
+        return cbNovember.isSelected();
+    }
+
+    public boolean desember() {
+        return cbDesember.isSelected();
+    }
+
+    public boolean januari() {
+        return cbJanuari.isSelected();
+    }
+
+    public boolean februari() {
+        return cbFebruari.isSelected();
+    }
+
+    public boolean maret() {
+        return cbMaret.isSelected();
+    }
+
+    public boolean april() {
+        return cbApril.isSelected();
+    }
+
+    public boolean mei() {
+        return cbMei.isSelected();
+    }
+
+    public boolean juni() {
+        return cbJuni.isSelected();
+    }
+
+    public boolean juli() {
+        return cbJuli.isSelected();
+    }
+
+    public boolean agustus() {
+        return cbAgustus.isSelected();
+    }
+
+    public boolean diesNatalis() {
+        return cbDiesNatalis.isSelected();
+    }
+
+    public String getBuktiPembayaran() {
+        return this.buktiPembayaran;
+    }
+
+    public void fetchNamaLengkap() {
+        try (Connection connection = dbconfig.getConnection()) {
+            String sql = "SELECT * FROM data_diri WHERE nim = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getNIM());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                txtNamaLengkap.setText(resultSet.getString("nama_lengkap"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching data from database", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void setCheckBox() {
+        String sql = "SELECT * FROM kas WHERE nim = ?";
+
+        try (Connection connection = dbconfig.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, user.getNIM());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    cbJanuari.setSelected(resultSet.getBoolean("Januari"));
+                    cbFebruari.setSelected(resultSet.getBoolean("Februari"));
+                    cbMaret.setSelected(resultSet.getBoolean("Maret"));
+                    cbApril.setSelected(resultSet.getBoolean("April"));
+                    cbMei.setSelected(resultSet.getBoolean("Mei"));
+                    cbJuni.setSelected(resultSet.getBoolean("Juni"));
+                    cbJuli.setSelected(resultSet.getBoolean("Juli"));
+                    cbAgustus.setSelected(resultSet.getBoolean("Agustus"));
+                    cbNovember.setSelected(resultSet.getBoolean("November"));
+                    cbDesember.setSelected(resultSet.getBoolean("Desember"));
+                    cbDiesNatalis.setSelected(resultSet.getBoolean("dies_natalis"));
+                } else {
+                    clearAllCheckBoxes();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching data from database", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void clearAllCheckBoxes() {
+        cbJanuari.setSelected(false);
+        cbFebruari.setSelected(false);
+        cbMaret.setSelected(false);
+        cbApril.setSelected(false);
+        cbMei.setSelected(false);
+        cbJuni.setSelected(false);
+        cbJuli.setSelected(false);
+        cbAgustus.setSelected(false);
+        cbNovember.setSelected(false);
+        cbDesember.setSelected(false);
+        cbDiesNatalis.setSelected(false);
+    }
+
+    public void displayTable() {
+        String[] columnNames = {"Bulan", "Status"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        try (Connection connection = dbconfig.getConnection()) {
+            String sql = "SELECT * FROM kas WHERE nim = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getNIM());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                addRowIfTrue(model, resultSet, "Januari");
+                addRowIfTrue(model, resultSet, "Februari");
+                addRowIfTrue(model, resultSet, "Maret");
+                addRowIfTrue(model, resultSet, "April");
+                addRowIfTrue(model, resultSet, "Mei");
+                addRowIfTrue(model, resultSet, "Juni");
+                addRowIfTrue(model, resultSet, "Juli");
+                addRowIfTrue(model, resultSet, "Agustus");
+                addRowIfTrue(model, resultSet, "November");
+                addRowIfTrue(model, resultSet, "Desember");
+                addRowIfTrue(model, resultSet, "Dies_Natalis");
+            }
+
+            // Buat renderer dan editor untuk tombol
+            tblKas.setModel(model);
+//            tblKas.getColumn("Action").setCellRenderer(new ButtonRenderer());
+//            tblKas.getColumn("Action").setCellEditor(new ButtonEditor(new JCheckBox(), tblKas));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching data from database", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        setCheckBox();
+    }
+
+    private void addRowIfTrue(DefaultTableModel model, ResultSet resultSet, String bulan) throws SQLException {
+        if (resultSet.getBoolean(bulan)) {
+            model.addRow(new Object[]{bulan, "Dicek Admin"});
+        }
+    }
+
+    // Renderer untuk tombol
+//    static class ButtonRenderer extends JButton implements TableCellRenderer {
+//
+//        public ButtonRenderer() {
+//            setOpaque(true);
+//        }
+//
+//        @Override
+//        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//            setText((value == null) ? "" : value.toString());
+//            return this;
+//        }
+//    }
+//
+//    // Editor untuk tombol
+//    static class ButtonEditor extends DefaultCellEditor {
+//
+//        protected JButton button;
+//        private String label;
+//        private boolean isPushed;
+//        private JTable table;
+//
+//        public ButtonEditor(JCheckBox checkBox, JTable table) {
+//            super(checkBox);
+//            this.table = table;
+//            button = new JButton();
+//            button.setOpaque(true);
+//            button.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    fireEditingStopped();
+//                }
+//            });
+//        }
+//
+//        @Override
+//        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+//            label = (value == null) ? "" : value.toString();
+//            button.setText(label);
+//            isPushed = true;
+//            return button;
+//        }
+//
+//        @Override
+//        public Object getCellEditorValue() {
+//            if (isPushed) {
+//                // Menampilkan nama bulan saat tombol diklik
+//                JOptionPane.showMessageDialog(button, "Bulan: " + table.getValueAt(table.getSelectedRow(), 0));
+//            }
+//            isPushed = false;
+//            return label;
+//        }
+//
+//        @Override
+//        public boolean stopCellEditing() {
+//            isPushed = false;
+//            return super.stopCellEditing();
+//        }
+//
+//        @Override
+//        protected void fireEditingStopped() {
+//            super.fireEditingStopped();
+//        }
+//    }
+
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         new Home(user).setVisible(true);
@@ -411,33 +660,95 @@ public class Kas extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void txtNamaLengkapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNamaLengkapActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_txtNamaLengkapActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void cbNovemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbNovemberActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_cbNovemberActionPerformed
 
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+    private void cbFebruariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFebruariActionPerformed
 
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
+    }//GEN-LAST:event_cbFebruariActionPerformed
 
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+    private void cbMaretActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMaretActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
+    }//GEN-LAST:event_cbMaretActionPerformed
 
-    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
+    private void cbAprilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAprilActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox6ActionPerformed
+    }//GEN-LAST:event_cbAprilActionPerformed
 
-    private void jCheckBox8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox8ActionPerformed
+    private void cbJuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbJuniActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox8ActionPerformed
+    }//GEN-LAST:event_cbJuniActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setDialogTitle("Pilih Gambar untuk Diunggah");
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Gambar", "jpg", "png", "jpeg", "gif");
+        chooser.setFileFilter(filter);
+
+        int returnValue = chooser.showOpenDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = chooser.getSelectedFile();
+            String originalFileName = selectedFile.getName();
+
+            String uploadDirPath = "src/uploads";
+            File uploadsDirectory = new File(uploadDirPath);
+            if (!uploadsDirectory.exists()) {
+                uploadsDirectory.mkdirs();
+            }
+
+            File destFile = new File(uploadsDirectory.getAbsolutePath() + File.separator + selectedFile.getName());
+            if (destFile.exists()) {
+                String fileNameWithoutExt = originalFileName.replaceFirst("[.][^.]+$", "");
+                String fileExt = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+                int count = 1;
+                String newFileName = fileNameWithoutExt + "_1" + fileExt;
+                destFile = new File(uploadDirPath + File.separator + newFileName);
+
+                while (destFile.exists()) {
+                    count++;
+                    newFileName = fileNameWithoutExt + "_" + count + fileExt;
+                    destFile = new File(uploadDirPath + File.separator + newFileName);
+                }
+            }
+            try {
+                Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                String buktiPembayaran = "src/uploads/" + destFile.getName();
+                this.buktiPembayaran = buktiPembayaran;
+                File imageFile = new File(buktiPembayaran);
+
+                if (imageFile.exists()) {
+                    try {
+                        BufferedImage img = ImageIO.read(imageFile);
+                        Image scaledImage = img.getScaledInstance(lblMetodePembayaran.getSize().width, lblMetodePembayaran.getSize().height, Image.SCALE_SMOOTH);
+                        ImageIcon icon = new ImageIcon(scaledImage);
+                        lblMetodePembayaran.setText("");
+                        lblMetodePembayaran.setIcon(icon);
+                    } catch (IOException ex) {
+                        System.err.println("Error: " + ex.getMessage());
+                    }
+                } else {
+                    System.err.println("File tidak ditemukan: " + buktiPembayaran);
+                }
+            } catch (IOException ex) {
+                System.err.println("Gagal memindahkan file: " + ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        UserController.setKas(user, this);
+        displayTable();
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -476,6 +787,17 @@ public class Kas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbAgustus;
+    private javax.swing.JCheckBox cbApril;
+    private javax.swing.JCheckBox cbDesember;
+    private javax.swing.JCheckBox cbDiesNatalis;
+    private javax.swing.JCheckBox cbFebruari;
+    private javax.swing.JCheckBox cbJanuari;
+    private javax.swing.JCheckBox cbJuli;
+    private javax.swing.JCheckBox cbJuni;
+    private javax.swing.JCheckBox cbMaret;
+    private javax.swing.JCheckBox cbMei;
+    private javax.swing.JCheckBox cbNovember;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -483,17 +805,6 @@ public class Kas extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox10;
-    private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
-    private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -505,8 +816,9 @@ public class Kas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JLabel lblFotoSideBar;
+    private javax.swing.JLabel lblMetodePembayaran;
+    private javax.swing.JTable tblKas;
+    private javax.swing.JTextField txtNamaLengkap;
     // End of variables declaration//GEN-END:variables
 }
