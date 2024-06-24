@@ -4,6 +4,23 @@
  */
 package model;
 
+import helper.dbconfig;
+import java.awt.Component;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author LENOVO
@@ -15,6 +32,68 @@ public class DataDiri_Admin extends javax.swing.JFrame {
      */
     public DataDiri_Admin() {
         initComponents();
+        displayTable();
+    }
+
+    public void displayTable() {
+        String[] columnNames = {"Email Polstat STIS", "Nama Lengkap", "Nama Panggilan", "Tempat Lahir", "Tanggal Lahir", "Jenis Kelamin", "Kelas", "NIM", "Suku", "Alamat Asal", "Alamat Kos", "NO HP/WA Pribadi", "NO HP/WA Ayah", "NO HP/WA Ibu", "NO HP/WA Teman", "Foto Diri"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        try (Connection connection = dbconfig.getConnection()) {
+            String sql = "SELECT * FROM data_diri";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                JLabel imageLabel = null;
+                try {
+                    String imagePath = resultSet.getString("foto");
+                    File imageFile = new File(imagePath);
+                    BufferedImage img = ImageIO.read(imageFile);
+                    Image scaledImage = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+                    ImageIcon icon = new ImageIcon(scaledImage);
+                    imageLabel = new JLabel(icon);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    imageLabel = new JLabel("No Image");
+                }
+
+                model.addRow(new Object[]{
+                    resultSet.getString("email"),
+                    resultSet.getString("nama_lengkap"),
+                    resultSet.getString("nama_panggilan"),
+                    resultSet.getString("tempat_lahir"),
+                    resultSet.getString("tanggal_lahir"),
+                    resultSet.getString("jenis_kelamin"),
+                    resultSet.getString("kelas"),
+                    resultSet.getString("nim"),
+                    resultSet.getString("suku"),
+                    resultSet.getString("alamat_asal"),
+                    resultSet.getString("alamat_kos"),
+                    resultSet.getString("no_hp_pribadi"),
+                    resultSet.getString("no_hp_ayah"),
+                    resultSet.getString("no_hp_ibu"),
+                    resultSet.getString("no_hp_teman_kos"),
+                    imageLabel
+                });
+            }
+
+            tblDataDiri.setModel(model);
+
+            tblDataDiri.getColumn("Foto Diri").setCellRenderer(new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    if (value instanceof JLabel) {
+                        return (JLabel) value;
+                    }
+                    return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                }
+            });
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching data from database", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -36,7 +115,7 @@ public class DataDiri_Admin extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDataDiri = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -113,7 +192,7 @@ public class DataDiri_Admin extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel11.setText("Data Diri Anggota IKMM");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDataDiri.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -129,7 +208,7 @@ public class DataDiri_Admin extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblDataDiri);
 
         jButton3.setText("Insert");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -195,6 +274,8 @@ public class DataDiri_Admin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        new Home_Admin().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -207,6 +288,8 @@ public class DataDiri_Admin extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        new Kas_Admin().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -270,6 +353,6 @@ public class DataDiri_Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblDataDiri;
     // End of variables declaration//GEN-END:variables
 }

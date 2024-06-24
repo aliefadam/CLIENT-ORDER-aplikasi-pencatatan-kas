@@ -4,21 +4,165 @@
  */
 package model;
 
+import controller.UserController;
+import helper.dbconfig;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import view.Login;
+import view.ModalBuktiPembayaran;
 
 /**
  *
  * @author LENOVO
  */
 public class Kas_Admin extends javax.swing.JFrame {
+    
+
+    private static ArrayList<String> listBuktiPembayaran = new ArrayList<>();
+    private static ArrayList<Integer> listNIMKonfirmasiKas = new ArrayList<>();
 
     /**
      * Creates new form Kas_Admin
      */
     public Kas_Admin() {
         initComponents();
+        displayTable();
     }
+
+    public void displayTable() {
+        String[] columnNames = {"Nama", "November", "Desember", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "Dies Natalis", "Bukti Pembayaran", "Keterangan", "Action"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        try (Connection connection = dbconfig.getConnection()) {
+            String sql = "SELECT * FROM kas INNER JOIN data_diri ON kas.nim = data_diri.nim";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                model.addRow(new Object[]{
+                    resultSet.getString("data_diri.nama_lengkap"),
+                    resultSet.getBoolean("november") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("desember") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("januari") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("februari") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("maret") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("april") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("mei") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("juni") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("juli") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("agustus") ? "Sudah" : "Belum",
+                    resultSet.getBoolean("dies_natalis") ? "Sudah" : "Belum",
+                    "Lihat Bukti Pembayaran",
+                    resultSet.getString("keterangan"),
+                    "Update"
+                });
+                
+                listBuktiPembayaran.add(resultSet.getString("bukti_pembayaran"));
+                listNIMKonfirmasiKas.add(resultSet.getInt("id"));
+            }
+
+            tblKas.setModel(model);
+            tblKas.getColumn("Bukti Pembayaran").setCellRenderer(new ButtonRenderer("Lihat"));
+            tblKas.getColumn("Bukti Pembayaran").setCellEditor(new ButtonEditor(new JCheckBox(), tblKas, "Lihat"));
+
+            tblKas.getColumn("Action").setCellRenderer(new ButtonRenderer("Konfirmasi"));
+            tblKas.getColumn("Action").setCellEditor(new ButtonEditor(new JCheckBox(), tblKas, "Konfirmasi"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching data from database", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    static class ButtonRenderer extends JButton implements TableCellRenderer {
+
+        private String buttonText;
+
+        public ButtonRenderer(String buttonText) {
+            this.buttonText = buttonText;
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText(buttonText);
+            return this;
+        }
+    }
+
+    class ButtonEditor extends DefaultCellEditor {
+
+        protected JButton button;
+        private String label;
+        private boolean isPushed;
+        private JTable table;
+        private String action;
+
+        public ButtonEditor(JCheckBox checkBox, JTable table, String action) {
+            super(checkBox);
+            this.table = table;
+            this.action = action;
+            button = new JButton();
+            button.setOpaque(true);
+            button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    fireEditingStopped();
+                }
+            });
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            label = (value == null) ? "" : value.toString();
+            button.setText(action);
+            isPushed = true;
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            if (isPushed) {
+                int row = table.getSelectedRow();
+                switch (action) {
+                    case "Lihat":
+                        new ModalBuktiPembayaran(listBuktiPembayaran.get(row)).setVisible(true);
+                        break;
+                    case "Konfirmasi":
+                        UserController.konfirmasiKas(listNIMKonfirmasiKas.get(row));
+                        new Kas_Admin().setVisible(true);
+                        Kas_Admin.this.dispose();
+                        break;
+                }
+            }
+            isPushed = false;
+            return label;
+        }
+
+        @Override
+        public boolean stopCellEditing() {
+            isPushed = false;
+            return super.stopCellEditing();
+        }
+
+        @Override
+        protected void fireEditingStopped() {
+            super.fireEditingStopped();
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,7 +183,7 @@ public class Kas_Admin extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblKas = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -116,7 +260,7 @@ public class Kas_Admin extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel11.setText("Riwayat Kas IKMM");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblKas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -124,7 +268,7 @@ public class Kas_Admin extends javax.swing.JFrame {
                 "Nama", "November", "Desember", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "Dies Natalis", "Bukti Pembayaran", "Keterangan"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblKas);
 
         jButton3.setText("Insert");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -205,7 +349,7 @@ public class Kas_Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        new Kas_Admin().setVisible(true);
+        new DataDiri_Admin().setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -270,6 +414,6 @@ public class Kas_Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblKas;
     // End of variables declaration//GEN-END:variables
 }

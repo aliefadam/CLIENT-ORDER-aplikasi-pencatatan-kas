@@ -124,5 +124,20 @@ public class UserController {
             JOptionPane.showMessageDialog(form, "Error updating data", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    public static void konfirmasiKas(int kas_id) {
+        try (Connection connection = dbconfig.getConnection()) {
+            String sql = "UPDATE kas SET keterangan = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, "Telah Dikonfirmasi Admin");
+            stmt.setInt(2, kas_id);
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Pembayaran Telah Dikonfirmasi");
+           
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error updating data", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 }

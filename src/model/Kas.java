@@ -550,10 +550,7 @@ public class Kas extends javax.swing.JFrame {
                 addRowIfTrue(model, resultSet, "Dies_Natalis");
             }
 
-            // Buat renderer dan editor untuk tombol
             tblKas.setModel(model);
-//            tblKas.getColumn("Action").setCellRenderer(new ButtonRenderer());
-//            tblKas.getColumn("Action").setCellEditor(new ButtonEditor(new JCheckBox(), tblKas));
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error fetching data from database", "Error", JOptionPane.ERROR_MESSAGE);
@@ -567,71 +564,6 @@ public class Kas extends javax.swing.JFrame {
             model.addRow(new Object[]{bulan, "Dicek Admin"});
         }
     }
-
-    // Renderer untuk tombol
-//    static class ButtonRenderer extends JButton implements TableCellRenderer {
-//
-//        public ButtonRenderer() {
-//            setOpaque(true);
-//        }
-//
-//        @Override
-//        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//            setText((value == null) ? "" : value.toString());
-//            return this;
-//        }
-//    }
-//
-//    // Editor untuk tombol
-//    static class ButtonEditor extends DefaultCellEditor {
-//
-//        protected JButton button;
-//        private String label;
-//        private boolean isPushed;
-//        private JTable table;
-//
-//        public ButtonEditor(JCheckBox checkBox, JTable table) {
-//            super(checkBox);
-//            this.table = table;
-//            button = new JButton();
-//            button.setOpaque(true);
-//            button.addActionListener(new ActionListener() {
-//                public void actionPerformed(ActionEvent e) {
-//                    fireEditingStopped();
-//                }
-//            });
-//        }
-//
-//        @Override
-//        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-//            label = (value == null) ? "" : value.toString();
-//            button.setText(label);
-//            isPushed = true;
-//            return button;
-//        }
-//
-//        @Override
-//        public Object getCellEditorValue() {
-//            if (isPushed) {
-//                // Menampilkan nama bulan saat tombol diklik
-//                JOptionPane.showMessageDialog(button, "Bulan: " + table.getValueAt(table.getSelectedRow(), 0));
-//            }
-//            isPushed = false;
-//            return label;
-//        }
-//
-//        @Override
-//        public boolean stopCellEditing() {
-//            isPushed = false;
-//            return super.stopCellEditing();
-//        }
-//
-//        @Override
-//        protected void fireEditingStopped() {
-//            super.fireEditingStopped();
-//        }
-//    }
-
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         new Home(user).setVisible(true);
